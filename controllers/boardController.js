@@ -35,9 +35,12 @@ function reportThread(req, res, next) {
   });
 }
 
-function reportReply(req, res) {
-  // set reported field to true
-  res.send(`NOT IMPLEMENTED: Put, reporting reply in board: ${req.params.board} with thread_id: ${req.body.thread_id} and reply_id: ${req.body.reply_id}`);
+function reportReply(req, res, next) {
+  const reply_id = req.body.reply_id;
+  Reply.findByIdAndUpdate(reply_id, {reported: true}, (err) => {
+    if (err) return next(err);
+    res.send('success');
+  });
 }
 
 function deleteThread(req, res) {
