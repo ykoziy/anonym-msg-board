@@ -1,6 +1,4 @@
-// import models
-// export routing methods
-// module.exports
+const Thread = require('../models/Thread');
 
 function postThread(req, res) {
   res.send(`NOT IMPLEMENTED: Post thread with to the board ${req.params.board} with text: ${req.body.text} and  pw: ${req.body.delete_password}`);
