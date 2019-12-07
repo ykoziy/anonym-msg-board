@@ -1,5 +1,6 @@
 const Thread = require('../models/Thread');
 const Reply = require('../models/Reply');
+const Board = require('../models/Board');
 
 function postThread(req, res) {
   res.send(`NOT IMPLEMENTED: Post thread with to the board ${req.params.board} with text: ${req.body.text} and  pw: ${req.body.delete_password}`);
