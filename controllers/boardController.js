@@ -19,8 +19,11 @@ function postReply(req, res) {
 
 
 function reportThread(req, res, next) {
-  // set reported field to true
-  res.send(`NOT IMPLEMENTED: Put, reporting thread in board: ${req.params.board} with thread_id: ${req.body.thread_id}`);
+  const thread_id = req.body.thread_id;
+  Thread.findByIdAndUpdate(thread_id, {reported: true}, (err) => {
+    if (err) return next(err);
+    res.send('success');
+  });
 }
 
 function reportReply(req, res) {
