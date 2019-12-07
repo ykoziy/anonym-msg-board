@@ -8,7 +8,7 @@ let ThreadSchema = new Schema({
   created_on:       {type: Date, default: Date.now},
   bumped_on:        {type: Date, default: Date.now},
   reported:         {type: Boolean, default: false},
-  replies:          {type: Schema.Types.ObjectId, ref: 'Reply'}
+  replies:          [{type: Schema.Types.ObjectId, ref: 'Reply'}]
 });
 //// Store board title???????
 
