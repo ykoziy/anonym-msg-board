@@ -6,7 +6,7 @@ function postThread(req, res, next) {
   const board = req.params.board;
   const {text, delete_password} = req.body;
 
-  const newThread = new Thread({text, delete_password});
+  const newThread = new Thread({text, delete_password, replies: []});
   newThread.save((err, data) => {
     if (err) return next(err);
     res.redirect('/b/' + board);
