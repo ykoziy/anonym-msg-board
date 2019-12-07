@@ -2,8 +2,15 @@ const Thread = require('../models/Thread');
 const Reply = require('../models/Reply');
 const Board = require('../models/Board');
 
-function postThread(req, res) {
-  res.send(`NOT IMPLEMENTED: Post thread with to the board ${req.params.board} with text: ${req.body.text} and  pw: ${req.body.delete_password}`);
+function postThread(req, res, next) {
+  const board = req.params.board;
+  const {text, delete_password} = req.body;
+
+  const newThread = new Thread({text, delete_password});
+  newThread.save((err, data) => {
+    if (err) return next(err);
+    res.redirect('/b/' + board);
+  });
 }
 
 function postReply(req, res) {
@@ -11,7 +18,7 @@ function postReply(req, res) {
 }
 
 
-function reportThread(req, res) {
+function reportThread(req, res, next) {
   // set reported field to true
   res.send(`NOT IMPLEMENTED: Put, reporting thread in board: ${req.params.board} with thread_id: ${req.body.thread_id}`);
 }
