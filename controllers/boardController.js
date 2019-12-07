@@ -13,10 +13,19 @@ function postThread(req, res, next) {
   });
 }
 
-function postReply(req, res) {
-  res.send(`NOT IMPLEMENTED: Post reply to the board ${req.params.board} with text: ${req.body.text} and pw: ${req.body.delete_password}, thread_id: ${req.body.thread_id}`);
-}
+function postReply(req, res, next) {
+  const board = req.params.board;
+  const {text, delete_password, thread_id} = req.body;
 
+  const newReply = new Reply({text, delete_password});
+  newReply.save((err, data) => {
+    if (err) return next(err);
+    Thread.findByIdAndUpdate(thread_id, {bumped_on: Date.now(), $push: {replies: data}}, (err) => {
+      if (err) return next(err);
+      res.redirect('/b/' + board + '/' + thread_id);
+    });
+  });
+}
 
 function reportThread(req, res, next) {
   const thread_id = req.body.thread_id;
