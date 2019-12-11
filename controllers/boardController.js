@@ -82,16 +82,22 @@ function getReplies(req, res, next) {
         });
 }
 
-// getThreads from board req.params.board
-function getThreads(req, res) {
-  // Get an array of 10 most recent bumped threads,
-  // on the board with only the three most recent replies from /api/threads/{board}.
-  // The reported and delete_passwords fields will not be sent.
-  console.log('getting threads: ' + req.params.board);
-  res.send(`NOT IMPLEMENTED: Get threads for board: ${req.params.board}`);
+function getThreads(req, res, next) {
+  const board_title = req.params.board;
+  const select_fields = '-delete_password -reported -__v';
+  console.log('getting threads for board: ' + req.params.board);
+  Board.findOne({board_title})
+    .populate({
+      path: 'threads',
+      select: select_fields,
+      options: { sort: {bumped_on: 'desc'}, limit: 10},
+      populate: {path: 'replies', select: select_fields, options: { sort: {created_on: 'desc'}, limit: 3}}
+    })
+    .exec((err, data) => {
+      if (err) return next(err);
+      return res.send(data.threads);
+    });
 }
-
-
 
 module.exports = {
   postThread,
