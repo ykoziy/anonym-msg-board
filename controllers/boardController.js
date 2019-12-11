@@ -66,10 +66,15 @@ function deleteReply(req, res) {
   });
 }
 
-// getReplies from board with req.query.thread_id
 function getReplies(req, res) {
-  console.log('getting replies for: ' + req.params.board);
-  res.send(`NOT IMPLEMENTED: Get replies for the thread_id ${req.query.thread_id}`);
+  const thread_id = req.query.thread_id;
+  const select_fields = '-delete_password -reported -__v';
+  Thread.findById(thread_id, select_fields)
+        .populate({path: 'replies', select: select_fields, options: { sort: {created_on: 'desc'}} })
+        .exec((err, replies) => {
+          if (err) return next(err);
+          return res.send(replies);
+        });
 }
 
 // getThreads from board req.params.board
