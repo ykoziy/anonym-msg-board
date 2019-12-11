@@ -49,9 +49,21 @@ function deleteThread(req, res) {
 }
 
 function deleteReply(req, res) {
-  //remove reply by replacing text with [deleted]
-  res.send(`NOT IMPLEMENTED: Delete reply in board: ${req.params.board}
-    with thread_id: ${req.body.thread_id} and reply_id: ${req.body.reply_id} and delete_password: ${req.body.delete_password}`);
+  const {delete_password, reply_id} = req.body;
+  Reply.findById(reply_id, (err, reply) => {
+    reply.comparePassword(delete_password, (err, isMatch) => {
+      if (err) return next(err);
+      if (isMatch) {
+        reply.text = '[deleted]';
+        reply.save((err, data) => {
+          if (err) return next(err);
+          return res.send('success');
+        });
+      } else {
+        return res.send('incorrect password');
+      }
+    });
+  });
 }
 
 // getReplies from board with req.query.thread_id
