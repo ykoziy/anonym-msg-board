@@ -71,7 +71,7 @@ function deleteReply(req, res) {
   });
 }
 
-function getReplies(req, res) {
+function getReplies(req, res, next) {
   const thread_id = req.query.thread_id;
   const select_fields = '-delete_password -reported -__v';
   Thread.findById(thread_id, select_fields)
