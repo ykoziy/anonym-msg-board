@@ -53,7 +53,7 @@ function deleteThread(req, res) {
   res.send(`NOT IMPLEMENTED: Delete thread in board: ${req.params.board} with thread_id: ${req.body.thread_id} and delete_password: ${req.body.delete_password}`);
 }
 
-function deleteReply(req, res) {
+function deleteReply(req, res, next) {
   const {delete_password, reply_id} = req.body;
   Reply.findById(reply_id, (err, reply) => {
     reply.comparePassword(delete_password, (err, isMatch) => {
