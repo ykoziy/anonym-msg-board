@@ -48,9 +48,23 @@ function reportReply(req, res, next) {
   });
 }
 
-function deleteThread(req, res) {
+function deleteThread(req, res, next) {
+  const {delete_password, thread_id} = req.body;
+  Thread.findById(thread_id, (err, thread) => {
+    thread.comparePassword(delete_password, (err, isMatch) => {
+      if (err) return next(err);
+      if (isMatch) {
+        thread.remove((err, data) => {
+          if (err) return next(err);
+          return res.send('success');
+        });
+      }  else {
+        return res.send('incorrect password');
+      }
+    });
+  });
   //remove thread with replies completely
-  res.send(`NOT IMPLEMENTED: Delete thread in board: ${req.params.board} with thread_id: ${req.body.thread_id} and delete_password: ${req.body.delete_password}`);
+  // remove related entry in Board
 }
 
 function deleteReply(req, res, next) {
