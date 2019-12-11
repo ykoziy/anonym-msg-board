@@ -5,12 +5,17 @@ const Board = require('../models/Board');
 function postThread(req, res, next) {
   const board = req.params.board;
   const {text, delete_password} = req.body;
-
   const newThread = new Thread({text, delete_password, replies: []});
-  newThread.save((err, data) => {
-    if (err) return next(err);
-    res.redirect('/b/' + board);
-  });
+  newThread.save()
+    .then(thread => {
+      return Board.findOneAndUpdate({board_title: board}, {$push: {threads: thread}}, {upsert: true, new: true}).exec();
+    })
+    .then(data => {
+      res.redirect('/b/' + board);
+    })
+    .catch(err => {
+      return next(err);
+    });
 }
 
 function postReply(req, res, next) {
