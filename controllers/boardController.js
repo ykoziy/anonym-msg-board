@@ -85,7 +85,6 @@ function getReplies(req, res, next) {
 function getThreads(req, res, next) {
   const board_title = req.params.board;
   const select_fields = '-delete_password -reported -__v';
-  console.log('getting threads for board: ' + req.params.board);
   Board.findOne({board_title})
     .populate({
       path: 'threads',
