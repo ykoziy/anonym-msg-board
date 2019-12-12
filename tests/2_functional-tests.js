@@ -16,10 +16,10 @@ const Thread = mongoose.model('Thread');
 
 chai.use(chaiHttp);
 before(function() {
+  console.log('Dropping collection');
   mongoose.connection.db.listCollections().toArray(function(err, collections) {
     if (err) console.log(err);
     for (item of collections) {
-      console.log('Dropping collection: ' + item.name);
       mongoose.connection.dropCollection(item.name, (err, result) => {
         if (err) console.log(err);
       });
@@ -55,15 +55,27 @@ suite('Functional Tests', function() {
     });
 
     suite('GET', function() {
-
+      test('List recent threads in the test board', function(done) {
+        // /api/threads/test The reported and delete_passwords fields will not be sent.
+        assert.fail();
+        done();
+      });
     });
 
     suite('DELETE', function() {
-
+      test('Delete new thread in the test board', function(done) {
+        // /api/threads/test and pass along the thread_id & delete_password
+        assert.fail();
+        done();
+      });
     });
 
     suite('PUT', function() {
-
+      test('Report new thread in the test board', function(done) {
+        // /api/threads/{board} and pass along the thread_id
+        assert.fail();
+        done();
+      });
     });
 
 
