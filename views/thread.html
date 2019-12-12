@@ -14,9 +14,9 @@
       <h1 id='threadTitle'></h1>
     </header>
     <br>
-    
+
     <div id='boardDisplay'></div>
-    
+
     <hr style='margin: 50px; margin-top: 200px'>
     <!-- Your web-app is https, so your scripts need to be too -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
@@ -26,7 +26,7 @@
       $(function() {
         var currentURL = window.location.pathname.slice(3);
         currentURL = currentURL.split('/');
-        
+
         var url = "/api/replies/"+currentURL[0];
         $('#threadTitle').text(window.location.pathname);
         $.ajax({
@@ -44,7 +44,7 @@
               var thread = ['<div class="thread">'];
               thread.push('<div class="main">')
               thread.push('<p class="id">id: '+ele._id+' ('+ele.created_on+')</p>');
-              thread.push('<form id="reportThread"><input type="hidden" name="report_id" value="'+ele._id+'"><input type="submit" value="Report"></form>');
+              thread.push('<form id="reportThread"><input type="hidden" name="thread_id" value="'+ele._id+'"><input type="submit" value="Report"></form>');
               thread.push('<form id="deleteThread"><input type="hidden" value="'+ele._id+'" name="thread_id" required=""><input type="text" placeholder="password" name="delete_password" required=""><input type="submit" value="Delete"></form>');
               thread.push('<h3>'+ele.text+'</h3>');
               thread.push('</div><div class="replies">');
@@ -66,12 +66,12 @@
             $('#boardDisplay').html(boardThreads.join(''));
           }
         });
-        
+
         $('#newThread').submit(function(){
           $(this).attr('action', "/api/threads/" + currentBoard);
         });
-        
-        
+
+
         $('#boardDisplay').on('submit','#reportThread', function(e) {
           var url = "/api/threads/"+currentURL[0];
           $.ajax({
@@ -101,7 +101,7 @@
             success: function(data) { alert(data) }
           });
           e.preventDefault();
-        });        
+        });
         $('#boardDisplay').on('submit','#deleteReply', function(e) {
           var url = "/api/replies/"+currentURL[0];
           $.ajax({
@@ -111,7 +111,7 @@
             success: function(data) { alert(data) }
           });
           e.preventDefault();
-        });              
+        });
       });
    </script>
   </body>
