@@ -26,6 +26,18 @@ ThreadSchema.pre('save', function(next) {
   });
 });
 
+ThreadSchema.post('remove', function(doc, next) {
+  const Board = this.model('Board');
+  const Reply = this.model('Reply');
+  const delete_promise = Reply.deleteMany({_id: {$in: doc.replies}});
+  const update_promise = Board.findOneAndUpdate({threads: doc._id},{$pull: {threads: doc._id}});
+  Promise.all([delete_promise, update_promise])
+    .then(data => {
+      next();
+    })
+    .catch(err => next(err));
+})
+
 ThreadSchema.methods.comparePassword = function(password, cb) {
   bcrypt.compare(password, this.delete_password, (err, res) => {
     if (err) return cb(err);
