@@ -25,7 +25,7 @@ function postReply(req, res, next) {
   const newReply = new Reply({text, delete_password});
   newReply.save((err, data) => {
     if (err) return next(err);
-    Thread.findByIdAndUpdate(thread_id, {bumped_on: Date.now(), $push: {replies: data}}, (err) => {
+    Thread.findByIdAndUpdate(thread_id, {bumped_on: Date.now(), $push: {replies: data}, $inc: {replycount: 1}}, (err) => {
       if (err) return next(err);
       res.redirect('/b/' + board + '/' + thread_id);
     });
