@@ -108,7 +108,11 @@ function getThreads(req, res, next) {
     })
     .exec((err, data) => {
       if (err) return next(err);
-      return res.send(data.threads);
+      if (data) {
+        res.send(data.threads);
+      } else {
+        res.status(404).end();
+      }
     });
 }
 
