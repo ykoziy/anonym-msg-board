@@ -11,6 +11,8 @@ var chai = require('chai');
 var assert = chai.assert;
 var server = require('../server');
 
+let threadId = '';
+
 const mongoose = require("mongoose");
 const Thread = mongoose.model('Thread');
 
@@ -45,6 +47,7 @@ suite('Functional Tests', function() {
                 assert.fail(err);
                 return done();
               }
+              threadId = thread._id;
               assert.equal(res.status, 200, 'status should be 200');
               assert.equal(thread.text, 'new thread', 'new thread does not exist');
               assert.exists(thread.delete_password, 'delete_password not assigned');
@@ -70,12 +73,23 @@ suite('Functional Tests', function() {
           });
       });
     });
-    
+
     suite('PUT', function() {
       test('Report new thread in the test board', function(done) {
-        // /api/threads/{board} and pass along the thread_id
-        assert.fail();
-        done();
+        chai.request(server)
+          .put('/api/threads/test')
+          .send({thread_id: threadId})
+          .end(function(err, res) {
+            Thread.findOne({text: 'new thread'}, (err, thread) => {
+              if (err) {
+                assert.fail(err);
+                return done();
+              }
+              assert.equal(res.status, 200, 'status should be 200');
+              assert.equal(thread.reported, true, 'reported field if not true');
+              done();
+            });
+         });
       });
     });
 
