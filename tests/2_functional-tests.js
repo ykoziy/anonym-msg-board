@@ -95,9 +95,24 @@ suite('Functional Tests', function() {
 
     suite('DELETE', function() {
       test('Delete new thread in the test board', function(done) {
-        // /api/threads/test and pass along the thread_id & delete_password
-        assert.fail();
-        done();
+        chai.request(server)
+          .delete('/api/threads/test')
+          .send({
+            thread_id: threadId,
+            delete_password: '123'
+          })
+          .end(function(err, res) {
+            Thread.findOne({text: 'new thread'}, (err, thread) => {
+              if (err) {
+                assert.fail(err);
+                return done();
+              }
+              assert.equal(res.status, 200, 'status should be 200');
+              assert.equal(res.text, 'success', 'deleting thread failed');
+              assert.isNull(thread, 'new thread is not null');
+              done();
+            });
+         });
       });
     });
 
