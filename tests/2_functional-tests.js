@@ -70,15 +70,7 @@ suite('Functional Tests', function() {
           });
       });
     });
-
-    suite('DELETE', function() {
-      test('Delete new thread in the test board', function(done) {
-        // /api/threads/test and pass along the thread_id & delete_password
-        assert.fail();
-        done();
-      });
-    });
-
+    
     suite('PUT', function() {
       test('Report new thread in the test board', function(done) {
         // /api/threads/{board} and pass along the thread_id
@@ -87,6 +79,13 @@ suite('Functional Tests', function() {
       });
     });
 
+    suite('DELETE', function() {
+      test('Delete new thread in the test board', function(done) {
+        // /api/threads/test and pass along the thread_id & delete_password
+        assert.fail();
+        done();
+      });
+    });
 
   });
 
