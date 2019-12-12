@@ -56,9 +56,18 @@ suite('Functional Tests', function() {
 
     suite('GET', function() {
       test('List recent threads in the test board', function(done) {
-        // /api/threads/test The reported and delete_passwords fields will not be sent.
-        assert.fail();
-        done();
+        chai.request(server)
+          .get('/api/threads/test')
+          .end(function(err, res) {
+            let resBody = res.body[0];
+            assert.equal(res.status, 200, 'status should be 200');
+            assert.equal(resBody.text, 'new thread', 'new thread does not exist');
+            assert.equal(resBody.replycount, 0, 'replycount field is not zero');
+            assert.isArray(resBody.replies, 'replies field is not an array');
+            assert.notExists(resBody.reported, 'reported field exists');
+            assert.notExists(resBody.delete_password, 'delete_password field exists');
+            done();
+          });
       });
     });
 
