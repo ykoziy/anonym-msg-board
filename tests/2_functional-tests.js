@@ -295,6 +295,20 @@ suite('Functional Tests', function() {
     });
 
     suite('DELETE', function() {
+      test('Delete "new reply" with wrong password', function(done) {
+        chai.request(server)
+          .delete('/api/replies/test')
+          .send({
+            reply_id: replyId,
+            delete_password: 'password'
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 200, 'status should be 200');
+            assert.equal(res.text, 'incorrect password', 'response text is not "incorrect password"');
+            done();
+         });
+      });
+
       test('Delete "new reply" in thread2', function(done) {
         chai.request(server)
           .delete('/api/replies/test')
