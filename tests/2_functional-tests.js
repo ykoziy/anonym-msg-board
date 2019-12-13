@@ -11,25 +11,25 @@ var chai = require('chai');
 var assert = chai.assert;
 var server = require('../server');
 
-let threadId = '';
-
 const mongoose = require("mongoose");
 const Thread = mongoose.model('Thread');
 
 chai.use(chaiHttp);
-suiteSetup(function() {
-  console.log('Dropping collections...');
-  mongoose.connection.db.listCollections().toArray(function(err, collections) {
-    if (err) console.log(err);
-    for (item of collections) {
-      mongoose.connection.dropCollection(item.name, (err, result) => {
-        if (err) console.log(err);
-      });
-    }
-  });
-});
 
 suite('Functional Tests', function() {
+
+  let threadId = '';
+  suiteSetup(function() {
+    console.log('Dropping collections...');
+    mongoose.connection.db.listCollections().toArray(function(err, collections) {
+      if (err) console.log(err);
+      for (item of collections) {
+        mongoose.connection.dropCollection(item.name, (err, result) => {
+          if (err) console.log(err);
+        });
+      }
+    });
+  });
 
   suite('API ROUTING FOR /api/threads/:board', function() {
 
