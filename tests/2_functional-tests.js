@@ -207,8 +207,24 @@ suite('Functional Tests', function() {
 
     suite('DELETE', function() {
       test('Delete "new reply" in thread2', function(done) {
-        assert.equal(1,1);
-        done();
+        chai.request(server)
+          .delete('/api/replies/test')
+          .send({
+            reply_id: replyId,
+            delete_password: '123'
+          })
+          .end(function(err, res) {
+            Reply.findOne({_id: replyId}, (err, reply) => {
+              if (err) {
+                assert.fail(err);
+                return done();
+              }
+              assert.equal(res.status, 200, 'status should be 200');
+              assert.equal(res.text, 'success', 'deleting thread failed');
+              assert.equal(reply.text, '[deleted]', 'text is not equal to [deleted]');
+              done();
+            });
+          })
       });
     });
 
