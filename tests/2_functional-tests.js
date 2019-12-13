@@ -103,7 +103,7 @@ suite('Functional Tests', function() {
             delete_password: '123'
           })
           .end(function(err, res) {
-            Thread.findOne({text: 'new thread'}, (err, thread) => {
+            Thread.findById(threadId, (err, thread) => {
               if (err) {
                 assert.fail(err);
                 return done();
