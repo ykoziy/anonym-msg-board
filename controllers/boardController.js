@@ -36,6 +36,9 @@ function postReply(req, res, next) {
       }, (err, thread) => {
         if (err) return next(err);
         if(!thread) {
+          data.remove((err, d) => {
+            if (err) return next(err);
+          });
           return res.send('thread id not found');
         }
         res.redirect('/b/' + board + '/' + thread_id);
