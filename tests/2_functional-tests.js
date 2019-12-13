@@ -251,6 +251,17 @@ suite('Functional Tests', function() {
             done();
           });
       });
+
+      test('Getting replies for thread that does not exist', function(done) {
+        chai.request(server)
+          .get('/api/replies/test')
+          .query({thread_id: shortid.generate()})
+          .end(function(err, res) {
+            assert.equal(res.status, 404, 'status should be 404');
+            assert.equal(res.text, 'thread id not found', 'wrong response sent');
+            done();
+          });
+      });
     });
 
     suite('PUT', function() {
