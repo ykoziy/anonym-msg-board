@@ -17,7 +17,7 @@ const mongoose = require("mongoose");
 const Thread = mongoose.model('Thread');
 
 chai.use(chaiHttp);
-before(function() {
+suiteSetup(function() {
   console.log('Dropping collections...');
   mongoose.connection.db.listCollections().toArray(function(err, collections) {
     if (err) console.log(err);
