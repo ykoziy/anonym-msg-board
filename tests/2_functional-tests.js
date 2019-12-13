@@ -214,7 +214,7 @@ suite('Functional Tests', function() {
             delete_password: '123'
           })
           .end(function(err, res) {
-            Reply.findOne({_id: replyId}, (err, reply) => {
+            Reply.findById(replyId, (err, reply) => {
               if (err) {
                 assert.fail(err);
                 return done();
