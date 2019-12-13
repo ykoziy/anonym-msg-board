@@ -8,7 +8,10 @@ function postThread(req, res, next) {
   const newThread = new Thread({text, delete_password, replies: []});
   newThread.save()
     .then(thread => {
-      return Board.findOneAndUpdate({board_title: board}, {$push: {threads: thread}}, {upsert: true, new: true}).exec();
+      return Board.findOneAndUpdate(
+        {board_title: board},
+        {$push: {threads: thread}},
+        {upsert: true, new: true}).exec();
     })
     .then(data => {
       res.redirect('/b/' + board);
@@ -50,7 +53,7 @@ function reportThread(req, res, next) {
   const thread_id = req.body.thread_id;
   Thread.findByIdAndUpdate(thread_id, {reported: true}, {new: true}, (err, thread) => {
     if (err) return next(err);
-    if(!thread) {
+    if (!thread) {
       return res.send('thread id not found');
     }
     res.send('success');
@@ -61,7 +64,7 @@ function reportReply(req, res, next) {
   const reply_id = req.body.reply_id;
   Reply.findByIdAndUpdate(reply_id, {reported: true}, {new: true}, (err, reply) => {
     if (err) return next(err);
-    if(!reply) {
+    if (!reply) {
       return res.send('reply id not found');
     }
     res.send('success');
@@ -83,8 +86,6 @@ function deleteThread(req, res, next) {
       }
     });
   });
-  //remove thread with replies completely
-  // remove related entry in Board
 }
 
 function deleteReply(req, res, next) {
@@ -112,7 +113,7 @@ function getReplies(req, res, next) {
         .populate({path: 'replies', select: select_fields, options: { sort: {created_on: 'desc'}} })
         .exec((err, replies) => {
           if (err) return next(err);
-          if(!replies) {
+          if (!replies) {
             return res.status(404).send('thread id not found');
           }
           res.send(replies);
