@@ -12,6 +12,7 @@ var assert = chai.assert;
 var server = require('../server');
 
 const mongoose = require("mongoose");
+const shortid = require('shortid');
 const Thread = mongoose.model('Thread');
 const Reply = mongoose.model('Reply');
 
@@ -109,7 +110,7 @@ suite('Functional Tests', function() {
       test('Report a thread with ID that does not exist', function(done) {
         chai.request(server)
           .put('/api/threads/test')
-          .send({thread_id: new mongoose.mongo.ObjectId()})
+          .send({thread_id: shortid.generate()})
           .end(function(err, res) {
             assert.equal(res.status, 200, 'status should be 200');
             assert.equal(res.text, 'thread id not found', 'wrong response sent');
