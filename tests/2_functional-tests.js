@@ -139,19 +139,31 @@ suite('Functional Tests', function() {
     })
 
     suite('POST', function() {
-
+      test('Post "new reply" in thread2', function(done) {
+        assert.equal(1,1);
+        done();
+      });
     });
 
     suite('GET', function() {
-
+      test('Get all replies for thread2', function(done) {
+        assert.equal(1,1);
+        done();
+      });
     });
 
     suite('PUT', function() {
-
+      test('Report "new reply" in thread2', function(done) {
+        assert.equal(1,1);
+        done();
+      });
     });
 
     suite('DELETE', function() {
-
+      test('Delete "new reply" in thread2', function(done) {
+        assert.equal(1,1);
+        done();
+      });
     });
 
   });
