@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const shortid = require('shortid');
 const Schema = mongoose.Schema;
 
 let ReplySchema = new Schema({
+  _id:              {type: String, default: shortid.generate},
   text:             {type: String, required: true},
   delete_password:  {type: String, required: true},
   created_on:       {type: Date, default: Date.now, required: true},

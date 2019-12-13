@@ -1,14 +1,16 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const shortid = require('shortid');
 const Schema = mongoose.Schema;
 
 let ThreadSchema = new Schema({
+  _id:              {type: String, default: shortid.generate},
   text:             {type: String, required: true},
   delete_password:  {type: String, required: true},
   created_on:       {type: Date, default: Date.now, required: true},
   bumped_on:        {type: Date, default: Date.now, required: true},
   reported:         {type: Boolean, default: false, required: true},
-  replies:          [{type: Schema.Types.ObjectId, ref: 'Reply'}],
+  replies:          [{type: String, ref: 'Reply'}],
   replycount:       {type: Number, default: 0, required: true}
 });
 
