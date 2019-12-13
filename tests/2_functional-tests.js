@@ -121,6 +121,7 @@ suite('Functional Tests', function() {
 
   suite('API ROUTING FOR /api/replies/:board', function() {
     let threadId = '';
+    let replyId = '';
     suiteSetup(function() {
       console.log('Setting up thread2....');
       return chai.request(server)
@@ -154,6 +155,7 @@ suite('Functional Tests', function() {
                 assert.fail(err);
                 return done();
               }
+              replyId = reply._id.toString();
               assert.equal(res.status, 200, 'status should be 200');
               assert.equal(reply.text, 'new reply', 'new reply does not exist');
               assert.exists(reply.delete_password, 'delete_password not assigned');
@@ -186,8 +188,20 @@ suite('Functional Tests', function() {
 
     suite('PUT', function() {
       test('Report "new reply" in thread2', function(done) {
-        assert.equal(1,1);
-        done();
+        chai.request(server)
+          .put('/api/replies/test')
+          .send({reply_id: replyId})
+          .end(function(err, res) {
+            Reply.findOne({text: 'new reply'}, (err, reply) => {
+              if (err) {
+                assert.fail(err);
+                return done();
+              }
+              assert.equal(res.status, 200, 'status should be 200');
+              assert.equal(reply.reported, true, 'reported field is not true');
+              done();
+            });
+         });
       });
     });
 
