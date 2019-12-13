@@ -165,8 +165,22 @@ suite('Functional Tests', function() {
 
     suite('GET', function() {
       test('Get all replies for thread2', function(done) {
-        assert.equal(1,1);
-        done();
+        chai.request(server)
+          .get('/api/replies/test')
+          .query({thread_id: threadId})
+          .end(function(err, res) {
+            assert.equal(res.status, 200, 'status should be 200');
+            assert.equal(res.body.text, 'thread2', 'thread2 does not exist');
+            assert.equal(res.body.replycount, 1, 'replycount field is not one');
+            assert.equal(res.body.replies.length, 1, 'replies array length is not one');
+            assert.isArray(res.body.replies, 'replies field is not an array');
+
+            let reply = res.body.replies[0];
+            assert.equal(reply.text, 'new reply', 'new reply does not exist');
+            assert.notExists(reply.reported, 'reported field exists');
+            assert.notExists(reply.delete_password, 'delete_password field exists');
+            done();
+          });
       });
     });
 
