@@ -11,7 +11,7 @@ const db        = require('./database.js');
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
-
+const middleware      = require('./middlewares');
 const app = express();
 
 app.use(helmet({
@@ -40,6 +40,8 @@ app.use(function(req, res, next) {
     .type('text')
     .send('Not Found');
 });
+
+middleware(app);
 
 //Start our server and tests!
 app.listen(process.env.PORT || 3000, function () {
