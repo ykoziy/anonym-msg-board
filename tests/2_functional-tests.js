@@ -13,6 +13,7 @@ var server = require('../server');
 
 const mongoose = require("mongoose");
 const Thread = mongoose.model('Thread');
+const Reply = mongoose.model('Reply');
 
 chai.use(chaiHttp);
 
@@ -140,8 +141,25 @@ suite('Functional Tests', function() {
 
     suite('POST', function() {
       test('Post "new reply" in thread2', function(done) {
-        assert.equal(1,1);
-        done();
+        chai.request(server)
+          .post('/api/replies/test')
+          .send({
+            text: 'new reply',
+            delete_password: '123',
+            thread_id: threadId
+          })
+          .end(function(err, res) {
+            Reply.findOne({text: 'new reply'}, (err, reply) => {
+              if (err) {
+                assert.fail(err);
+                return done();
+              }
+              assert.equal(res.status, 200, 'status should be 200');
+              assert.equal(reply.text, 'new reply', 'new reply does not exist');
+              assert.exists(reply.delete_password, 'delete_password not assigned');
+              done();
+            });
+          });
       });
     });
 
