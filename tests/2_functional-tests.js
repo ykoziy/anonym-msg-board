@@ -202,6 +202,21 @@ suite('Functional Tests', function() {
             });
           });
       });
+
+      test('Posting reply for a thread that does not exist', function(done) {
+        chai.request(server)
+          .post('/api/replies/test')
+          .send({
+            text: 'new reply',
+            delete_password: '123',
+            thread_id: shortid.generate()
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 200, 'status should be 200');
+            assert.equal(res.text, 'thread id not found', 'wrong response sent');
+            done();
+          });
+      });
     });
 
     suite('GET', function() {
