@@ -217,6 +217,19 @@ suite('Functional Tests', function() {
             done();
           });
       });
+
+      test('Posting reply with missing text and missing delete_password', function(done) {
+        chai.request(server)
+          .post('/api/replies/test')
+          .send({
+            thread_id: threadId
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 400, 'status should be 400');
+            assert.exists(res.body.error, 'error message exists');
+            done();
+          });
+      });
     });
 
     suite('GET', function() {
