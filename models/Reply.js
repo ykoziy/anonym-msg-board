@@ -3,10 +3,10 @@ const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
 let ReplySchema = new Schema({
-  text:             String,
-  delete_password:  String,
-  created_on:       {type: Date, default: Date.now},
-  reported:         {type: Boolean, default: false}
+  text:             {type: String, required: true},
+  delete_password:  {type: String, required: true},
+  created_on:       {type: Date, default: Date.now, required: true},
+  reported:         {type: Boolean, default: false, required: true}
 });
 
 ReplySchema.pre('save', function(next) {
