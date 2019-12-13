@@ -34,7 +34,7 @@ suite('Functional Tests', function() {
   suite('API ROUTING FOR /api/threads/:board', function() {
 
     suite('POST', function() {
-       test('Post new thread to the test board', function(done) {
+       test('Post "new thread" to the test board', function(done) {
         chai.request(server)
           .post('/api/threads/test')
           .send({
@@ -75,7 +75,7 @@ suite('Functional Tests', function() {
     });
 
     suite('PUT', function() {
-      test('Report new thread in the test board', function(done) {
+      test('Report "new thread" in the test board', function(done) {
         chai.request(server)
           .put('/api/threads/test')
           .send({thread_id: threadId})
@@ -94,7 +94,7 @@ suite('Functional Tests', function() {
     });
 
     suite('DELETE', function() {
-      test('Delete new thread in the test board', function(done) {
+      test('Delete "new thread" in the test board', function(done) {
         chai.request(server)
           .delete('/api/threads/test')
           .send({
