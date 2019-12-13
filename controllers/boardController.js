@@ -95,6 +95,10 @@ function deleteThread(req, res, next) {
 function deleteReply(req, res, next) {
   const {delete_password, reply_id} = req.body;
   Reply.findById(reply_id, (err, reply) => {
+    if (err) return next(err);
+    if (!reply) {
+      return res.send('reply id not found');
+    }
     reply.comparePassword(delete_password, (err, isMatch) => {
       if (err) return next(err);
       if (isMatch) {
