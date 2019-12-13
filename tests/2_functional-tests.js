@@ -87,7 +87,7 @@ suite('Functional Tests', function() {
                 return done();
               }
               assert.equal(res.status, 200, 'status should be 200');
-              assert.equal(thread.reported, true, 'reported field if not true');
+              assert.equal(thread.reported, true, 'reported field is not true');
               done();
             });
          });
