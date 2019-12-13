@@ -56,6 +56,19 @@ suite('Functional Tests', function() {
             });
           });
        });
+
+       test('Post a thread with text missing', function(done) {
+         chai.request(server)
+           .post('/api/threads/test')
+           .send({
+             delete_password: '123'
+           })
+           .end(function(err, res) {
+             assert.equal(res.status, 400, 'status should be 400');
+             assert.exists(res.body.error, 'error message exists');
+             done();
+           });
+       });
     });
 
     suite('GET', function() {
