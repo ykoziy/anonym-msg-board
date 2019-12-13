@@ -134,6 +134,20 @@ suite('Functional Tests', function() {
          });
       });
 
+      test('Delete thread that does not exist', function(done) {
+        chai.request(server)
+          .delete('/api/threads/test')
+          .send({
+            thread_id: shortid.generate(),
+            delete_password: 'password'
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 200, 'status should be 200');
+            assert.equal(res.text, 'thread id not found', 'wrong response sent');
+            done();
+         });
+      });
+
       test('Delete "new thread" in the test board', function(done) {
         chai.request(server)
           .delete('/api/threads/test')
