@@ -119,6 +119,25 @@ suite('Functional Tests', function() {
   });
 
   suite('API ROUTING FOR /api/replies/:board', function() {
+    let threadId = '';
+    suiteSetup(function() {
+      console.log('Setting up thread2....');
+      chai.request(server)
+        .post('/api/threads/test')
+        .send({
+          text: 'thread2',
+          delete_password: '123'
+        })
+        .end(function(err, res) {
+          Thread.findOne({text: 'thread2'}, (err, thread) => {
+            if (err) {
+              assert.fail(err);
+              return done();
+            }
+            threadId = thread._id;
+          });
+        });
+    })
 
     suite('POST', function() {
 
