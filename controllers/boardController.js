@@ -34,8 +34,11 @@ function postReply(req, res, next) {
 
 function reportThread(req, res, next) {
   const thread_id = req.body.thread_id;
-  Thread.findByIdAndUpdate(thread_id, {reported: true}, (err) => {
+  Thread.findByIdAndUpdate(thread_id, {reported: true}, {new: true}, (err, thread) => {
     if (err) return next(err);
+    if(!thread) {
+      return res.send('thread id not found');
+    }
     res.send('success');
   });
 }
