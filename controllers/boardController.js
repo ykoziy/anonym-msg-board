@@ -109,7 +109,10 @@ function getReplies(req, res, next) {
         .populate({path: 'replies', select: select_fields, options: { sort: {created_on: 'desc'}} })
         .exec((err, replies) => {
           if (err) return next(err);
-          return res.send(replies);
+          if(!replies) {
+            return res.status(404).send('thread id not found');
+          }
+          res.send(replies);
         });
 }
 
