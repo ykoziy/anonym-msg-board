@@ -120,6 +120,20 @@ suite('Functional Tests', function() {
     });
 
     suite('DELETE', function() {
+      test('Delete "new thread" with wrong password', function(done) {
+        chai.request(server)
+          .delete('/api/threads/test')
+          .send({
+            thread_id: threadId,
+            delete_password: 'password'
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 200, 'status should be 200');
+            assert.equal(res.text, 'incorrect password', 'response text is not "incorrect password"');
+            done();
+         });
+      });
+
       test('Delete "new thread" in the test board', function(done) {
         chai.request(server)
           .delete('/api/threads/test')
