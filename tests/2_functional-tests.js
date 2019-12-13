@@ -207,7 +207,7 @@ suite('Functional Tests', function() {
         chai.request(server)
           .post('/api/replies/test')
           .send({
-            text: 'new reply',
+            text: 'new reply, thread does not exist',
             delete_password: '123',
             thread_id: shortid.generate()
           })
