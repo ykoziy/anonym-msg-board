@@ -48,7 +48,7 @@ suite('Functional Tests', function() {
                 assert.fail(err);
                 return done();
               }
-              threadId = thread._id;
+              threadId = thread._id.toString();
               assert.equal(res.status, 200, 'status should be 200');
               assert.equal(thread.text, 'new thread', 'new thread does not exist');
               assert.exists(thread.delete_password, 'delete_password not assigned');
@@ -134,7 +134,7 @@ suite('Functional Tests', function() {
             if (err) {
               assert.fail(err);
             }
-            threadId = thread._id;
+            threadId = thread._id.toString();
           });
         });
     })
