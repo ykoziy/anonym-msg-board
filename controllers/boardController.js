@@ -59,8 +59,11 @@ function reportThread(req, res, next) {
 
 function reportReply(req, res, next) {
   const reply_id = req.body.reply_id;
-  Reply.findByIdAndUpdate(reply_id, {reported: true}, (err) => {
+  Reply.findByIdAndUpdate(reply_id, {reported: true}, {new: true}, (err, reply) => {
     if (err) return next(err);
+    if(!reply) {
+      return res.send('reply id not found');
+    }
     res.send('success');
   });
 }
