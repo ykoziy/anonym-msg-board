@@ -323,6 +323,20 @@ suite('Functional Tests', function() {
          });
       });
 
+      test('Delete reply that does not exist', function(done) {
+        chai.request(server)
+          .delete('/api/replies/test')
+          .send({
+            thread_id: shortid.generate(),
+            delete_password: 'password'
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 200, 'status should be 200');
+            assert.equal(res.text, 'reply id not found', 'wrong response sent');
+            done();
+         });
+      });
+
       test('Delete "new reply" in thread2', function(done) {
         chai.request(server)
           .delete('/api/replies/test')
