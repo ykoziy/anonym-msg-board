@@ -3,15 +3,14 @@ const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
 let ThreadSchema = new Schema({
-  text:             String,
-  delete_password:  String,
-  created_on:       {type: Date, default: Date.now},
-  bumped_on:        {type: Date, default: Date.now},
-  reported:         {type: Boolean, default: false},
+  text:             {type: String, required: true},
+  delete_password:  {type: String, required: true},
+  created_on:       {type: Date, default: Date.now, required: true},
+  bumped_on:        {type: Date, default: Date.now, required: true},
+  reported:         {type: Boolean, default: false, required: true},
   replies:          [{type: Schema.Types.ObjectId, ref: 'Reply'}],
-  replycount:       {type: Number, default: 0}
+  replycount:       {type: Number, default: 0, required: true}
 });
-//// Store board title???????
 
 ThreadSchema.pre('save', function(next) {
   if (!this.isModified('delete_password')) {
