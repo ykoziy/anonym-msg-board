@@ -1,5 +1,5 @@
-# Personal Library Project
-Allows to store books in the database along with any book comments.
+# Anonymous Message Board
+Allows users to create threads and post replies anonymously. Users can delete and report replies/threads. For deletion user must provide a delete password.
 
 ------------
 
