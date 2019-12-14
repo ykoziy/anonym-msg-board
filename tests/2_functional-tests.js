@@ -37,10 +37,6 @@ suite('Functional Tests', function() {
     dropCollections();
   });
 
-  suiteTeardown(function() {
-    dropCollections();
-  });
-
   suite('API ROUTING FOR /api/threads/:board', function() {
 
     suite('POST', function() {
